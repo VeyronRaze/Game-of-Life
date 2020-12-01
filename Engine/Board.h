@@ -28,7 +28,7 @@ public:
 	void SpawnCell(Cell &c);
 	void SpawnCell(Location &loc);
 	void Update();
-	static constexpr int cellSize = 5;
+	static constexpr int cellSize = 10;
 private:
 	Cell board[Graphics::ScreenHeight / cellSize][Graphics::ScreenWidth / cellSize];
 };

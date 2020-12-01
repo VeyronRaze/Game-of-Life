@@ -15,6 +15,7 @@ void Board::Cell::SetLoc(Location &src){
 
 Board::Cell& Board::Cell::operator=(Cell &src){
 	loc = src.GetLoc();
+	alive = src.isAlive();
 	return *this;
 }
 
@@ -51,7 +52,7 @@ void Board::InitSpawn(){
 	std::mt19937 rng = std::mt19937(std::random_device()());
 	std::uniform_int_distribution<int> xuid(0, Graphics::ScreenWidth / cellSize - 1);
 	std::uniform_int_distribution<int> yuid(0, Graphics::ScreenHeight / cellSize - 1);
-	for(int i = 0; i < 1500; i++){
+	for(int i = 0; i < 500; i++){
 		bool isOccupied = false;
 		int x;
 		int y;
@@ -86,21 +87,34 @@ void Board::SpawnCell(Location &loc){
 }
 
 void Board::Update(){
+	Cell **boardCopy = new Cell* [Graphics::ScreenHeight / cellSize];
+	for(int y = 0; y < Graphics::ScreenHeight / cellSize; y++)
+	boardCopy[y] = new Cell[Graphics::ScreenWidth / cellSize];
+
+	for(int y = 0; y < Graphics::ScreenHeight / cellSize; y++)
+		for(int x = 0; x < Graphics::ScreenWidth / cellSize; x++)
+			boardCopy[y][x] = board[y][x];
+
 	for(int y = 0; y < Graphics::ScreenHeight / cellSize; y++)
 		for(int x = 0; x < Graphics::ScreenWidth / cellSize; x++){
 			int nNeighbours = 0;
-			int xl = board[y][x].GetLoc().x;
-			int yl = board[y][x].GetLoc().y;
+			int xl = boardCopy[y][x].GetLoc().x;
+			int yl = boardCopy[y][x].GetLoc().y;
 			for(int xo = -1; xo <= 1; xo++)
 				for(int yo = -1; yo <= 1; yo++){
 					if(!((xl + xo < 0) || (yl + yo < 0) || (xl + xo > Graphics::ScreenWidth / cellSize - 1) || (yl + yo > Graphics::ScreenHeight / cellSize - 1)))
 						if(!(xo == 0 && yo == 0))
-							nNeighbours += board[yl + yo][xl + xo].isAlive();
+							nNeighbours += boardCopy[(yl + yo)][(xl + xo)].isAlive();
 				}
 
-			if(board[y][x].isAlive() && (nNeighbours > 3 || nNeighbours < 2))
+			if(boardCopy[y][x].isAlive() && (nNeighbours > 3 || nNeighbours < 2))
 				KillCell(board[y][x]);
-			else if(!(board[y][x].isAlive()) && nNeighbours == 3)
+			else if(!(boardCopy[y][x].isAlive()) && nNeighbours == 3)
 				SpawnCell(board[y][x]);
 		}
+
+	for(int y = 0; y < Graphics::ScreenHeight / cellSize; y++)
+		delete[] boardCopy[y];
+
+	delete[] boardCopy;
 }
