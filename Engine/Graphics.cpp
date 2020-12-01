@@ -324,7 +324,10 @@ void Graphics::DrawSquare(int x1, int y1, int x2, int y2, Color c){
 
 	for(int i = y1; i < y2; i++)
 		for(int k = x1; k < x2; k++)
-			PutPixel(k, i, c);
+			if(k + 1 > ScreenWidth || i + 1 > ScreenHeight || k - 1 < 0 || i - 1 < 0)
+				break;
+			else
+				PutPixel(k, i, c);
 }
 
 void Graphics::DrawSquareByDim(int x, int y, int width, int height, Color c){
@@ -334,7 +337,6 @@ void Graphics::DrawSquareByDim(int x, int y, int width, int height, Color c){
 void Graphics::DrawSquareWithPadding(int x, int y, int width, int height, Color c){
 	DrawSquareByDim(x + width*0.1, y + width*0.1, width - width*0.2, height - height*0.2, c);
 }
-
 
 //////////////////////////////////////////////////
 //           Graphics Exception
