@@ -35,7 +35,7 @@ int WINAPI wWinMain( HINSTANCE hInst,HINSTANCE,LPWSTR pArgs,INT )
 			while( wnd.ProcessMessage() )
 			{
 				auto now = std::chrono::steady_clock::now();
-				if(100/16 < std::chrono::duration_cast<std::chrono::seconds>(now - mark).count()){
+				if(100/0.1 < std::chrono::duration_cast<std::chrono::milliseconds>(now - mark).count()){
 					theGame.Go();
 					mark = now;
 				}
