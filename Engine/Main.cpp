@@ -21,6 +21,7 @@
 #include "MainWindow.h"
 #include "Game.h"
 #include "ChiliException.h"
+#include <chrono>
 
 int WINAPI wWinMain( HINSTANCE hInst,HINSTANCE,LPWSTR pArgs,INT )
 {
@@ -30,9 +31,15 @@ int WINAPI wWinMain( HINSTANCE hInst,HINSTANCE,LPWSTR pArgs,INT )
 		try
 		{
 			Game theGame( wnd );
+			auto mark = std::chrono::steady_clock::now();
 			while( wnd.ProcessMessage() )
 			{
-				theGame.Go();
+				auto now = std::chrono::steady_clock::now();
+				if(100/16 < std::chrono::duration_cast<std::chrono::seconds>(now - mark).count()){
+					theGame.Go();
+					mark = now;
+				}
+				
 			}
 		}
 		catch( const ChiliException& e )
