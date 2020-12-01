@@ -42,4 +42,7 @@ void Game::UpdateModel()
 
 void Game::ComposeFrame()
 {
+	for(int i = 0; i < Graphics::ScreenHeight / 100; i++)
+		for(int k = 0; k < Graphics::ScreenWidth / 100; k++)
+			gfx.DrawSquareWithPadding(k*100, i*100, 100, 100, Colors::Green);
 }

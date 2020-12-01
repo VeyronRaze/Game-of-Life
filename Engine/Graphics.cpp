@@ -316,6 +316,25 @@ void Graphics::PutPixel( int x,int y,Color c )
 	pSysBuffer[Graphics::ScreenWidth * y + x] = c;
 }
 
+void Graphics::DrawSquare(int x1, int y1, int x2, int y2, Color c){
+	if(x1 > x2)
+		std::swap(x1, x2);
+	if(y1 > y2)
+		std::swap(y1, y2);
+
+	for(int i = y1; i < y2; i++)
+		for(int k = x1; k < x2; k++)
+			PutPixel(k, i, c);
+}
+
+void Graphics::DrawSquareByDim(int x, int y, int width, int height, Color c){
+	DrawSquare(x, y, x + width, y + height, c);
+}
+
+void Graphics::DrawSquareWithPadding(int x, int y, int width, int height, Color c){
+	DrawSquareByDim(x + width*0.1, y + width*0.1, width - width*0.2, height - height*0.2, c);
+}
+
 
 //////////////////////////////////////////////////
 //           Graphics Exception
