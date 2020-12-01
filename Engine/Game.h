@@ -23,6 +23,8 @@
 #include "Keyboard.h"
 #include "Mouse.h"
 #include "Graphics.h"
+#include "Board.h"
+#include <chrono>
 
 class Game
 {
@@ -40,6 +42,11 @@ private:
 private:
 	MainWindow& wnd;
 	Graphics gfx;
+	Board test;
+	std::chrono::time_point<std::chrono::steady_clock, std::chrono::nanoseconds> mark;
+	float speed = 0.1;
+	bool paused = true;
+	bool pauseIsPressed = false;
 	/********************************/
 	/*  User Variables              */
 	/********************************/

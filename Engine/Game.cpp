@@ -20,6 +20,7 @@
  ******************************************************************************************/
 #include "MainWindow.h"
 #include "Game.h"
+#include "Location.h"
 
 Game::Game( MainWindow& wnd )
 	:
@@ -38,11 +39,30 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
+	auto now = std::chrono::steady_clock::now();
+	if(100/speed < std::chrono::duration_cast<std::chrono::milliseconds>(now - mark).count() && !paused){
+		test.Update();
+		mark = now;
+	}
+
+	if(wnd.kbd.KeyIsPressed(VK_SPACE) && !pauseIsPressed){
+		paused = !paused;
+		pauseIsPressed = true;
+	}
+	else if(!wnd.kbd.KeyIsPressed(VK_SPACE))
+		pauseIsPressed = false;
+
+	if(wnd.mouse.LeftIsPressed()){
+		Location loc(wnd.mouse.GetPosX() / Board::cellSize, wnd.mouse.GetPosY() / Board::cellSize);
+		test.SpawnCell(loc);
+	}
+	if(wnd.mouse.RightIsPressed()){
+		Location loc(wnd.mouse.GetPosX() / Board::cellSize, wnd.mouse.GetPosY() / Board::cellSize);
+		test.KillCell(loc);
+	}
 }
 
 void Game::ComposeFrame()
 {
-	for(int i = 0; i < Graphics::ScreenHeight / 100; i++)
-		for(int k = 0; k < Graphics::ScreenWidth / 100; k++)
-			gfx.DrawSquareWithPadding(k*100, i*100, 100, 100, Colors::Green);
+	test.Draw(gfx);
 }
