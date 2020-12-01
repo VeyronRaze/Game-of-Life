@@ -4,12 +4,6 @@
 #include "Graphics.h"
 
 class Board{
-public:
-	Board();
-	void Draw(Graphics &gfx);
-	void InitSpawn();
-	void DeleteCell();
-	void Update();
 private:
 	class Cell{
 	public:
@@ -17,7 +11,7 @@ private:
 		Cell(Location loc);
 		void Draw(Graphics &gfx);
 		void SetLoc(Location &src);
-		Cell& operator =(Cell &src);
+		Cell &operator =(Cell &src);
 		Location GetLoc();
 		void Toggle();
 		bool isAlive();
@@ -25,8 +19,17 @@ private:
 		Location loc = {-2, -2};
 		bool alive = false;
 	};
+public:
+	Board();
+	void Draw(Graphics &gfx);
+	void InitSpawn();
+	void KillCell(Cell &c);
+	void KillCell(Location &loc);
+	void SpawnCell(Cell &c);
+	void SpawnCell(Location &loc);
+	void Update();
+	static constexpr int cellSize = 5;
 private:
-	static constexpr int cellSize = 10;
 	Cell board[Graphics::ScreenHeight / cellSize][Graphics::ScreenWidth / cellSize];
 };
 
