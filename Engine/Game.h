@@ -44,7 +44,7 @@ private:
 	Graphics gfx;
 	Board test;
 	std::chrono::time_point<std::chrono::steady_clock, std::chrono::nanoseconds> mark;
-	float speed = 0.1;
+	float speed = 0.8;
 	bool paused = true;
 	bool pauseIsPressed = false;
 	/********************************/
