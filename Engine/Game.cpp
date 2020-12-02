@@ -21,7 +21,6 @@
 #include "MainWindow.h"
 #include "Game.h"
 #include "Location.h"
-#include <fstream>
 
 Game::Game( MainWindow& wnd )
 	:
@@ -39,14 +38,9 @@ void Game::Go()
 }
 void Game::UpdateModel()
 {
-	std::string bench_str;
 	auto now = std::chrono::steady_clock::now();
 	if(1000/speed < std::chrono::duration_cast<std::chrono::milliseconds>(now - mark).count() && !paused){
-		auto startBenchres = std::chrono::steady_clock::now();
 		test.Update();
-		auto endBenchres = std::chrono::steady_clock::now();
-		bench_str = std::to_string(std::chrono::duration<double, std::milli>(endBenchres - startBenchres).count()) + "\n";
-		OutputDebugStringA(bench_str.c_str());
 		mark = now;
 	}
 

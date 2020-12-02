@@ -31,6 +31,16 @@ bool Board::Cell::isAlive(){
 	return alive;
 }
 
+void Board::Cell::AddToToggle(){
+	toToggle = true;
+}
+
+void Board::Cell::Tick(){
+	if(toToggle)
+		Toggle();
+	toToggle = false;
+}
+
 Board::Board()
 {
 	InitSpawn();
@@ -87,34 +97,25 @@ void Board::SpawnCell(Location &loc){
 }
 
 void Board::Update(){
-	Cell **boardCopy = new Cell* [Graphics::ScreenHeight / cellSize];
-	for(int y = 0; y < Graphics::ScreenHeight / cellSize; y++)
-	boardCopy[y] = new Cell[Graphics::ScreenWidth / cellSize];
-
-	for(int y = 0; y < Graphics::ScreenHeight / cellSize; y++)
-		for(int x = 0; x < Graphics::ScreenWidth / cellSize; x++)
-			boardCopy[y][x] = board[y][x];
-
 	for(int y = 0; y < Graphics::ScreenHeight / cellSize; y++)
 		for(int x = 0; x < Graphics::ScreenWidth / cellSize; x++){
 			int nNeighbours = 0;
-			int xl = boardCopy[y][x].GetLoc().x;
-			int yl = boardCopy[y][x].GetLoc().y;
+			int xl = board[y][x].GetLoc().x;
+			int yl = board[y][x].GetLoc().y;
 			for(int xo = -1; xo <= 1; xo++)
 				for(int yo = -1; yo <= 1; yo++){
 					if(!((xl + xo < 0) || (yl + yo < 0) || (xl + xo > Graphics::ScreenWidth / cellSize - 1) || (yl + yo > Graphics::ScreenHeight / cellSize - 1)))
 						if(!(xo == 0 && yo == 0))
-							nNeighbours += boardCopy[(yl + yo)][(xl + xo)].isAlive();
+							nNeighbours += board[(yl + yo)][(xl + xo)].isAlive();
 				}
 
-			if(boardCopy[y][x].isAlive() && (nNeighbours > 3 || nNeighbours < 2))
-				KillCell(board[y][x]);
-			else if(!(boardCopy[y][x].isAlive()) && nNeighbours == 3)
-				SpawnCell(board[y][x]);
+			if(board[y][x].isAlive() && (nNeighbours > 3 || nNeighbours < 2))
+				board[y][x].AddToToggle();
+			else if(!(board[y][x].isAlive()) && nNeighbours == 3)
+				board[y][x].AddToToggle();
 		}
 
 	for(int y = 0; y < Graphics::ScreenHeight / cellSize; y++)
-		delete[] boardCopy[y];
-
-	delete[] boardCopy;
+		for(int x = 0; x < Graphics::ScreenWidth / cellSize; x++)
+			board[y][x].Tick();
 }

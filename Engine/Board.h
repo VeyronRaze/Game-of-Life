@@ -15,9 +15,12 @@ private:
 		Location GetLoc();
 		void Toggle();
 		bool isAlive();
+		void AddToToggle();
+		void Tick();
 	private:
 		Location loc = {-2, -2};
 		bool alive = false;
+		bool toToggle = false;
 	};
 public:
 	Board();
