@@ -40,7 +40,7 @@ void Game::Go()
 void Game::UpdateModel()
 {
 	auto now = std::chrono::steady_clock::now();
-	if(100/speed < std::chrono::duration_cast<std::chrono::milliseconds>(now - mark).count() && !paused){
+	if(1000/speed < std::chrono::duration_cast<std::chrono::milliseconds>(now - mark).count() && !paused){
 		test.Update();
 		mark = now;
 	}
@@ -51,6 +51,12 @@ void Game::UpdateModel()
 	}
 	else if(!wnd.kbd.KeyIsPressed(VK_SPACE))
 		pauseIsPressed = false;
+
+	if(wnd.kbd.KeyIsPressed(VK_OEM_PLUS))
+		speed += 0.05f;
+
+	if(wnd.kbd.KeyIsPressed(VK_OEM_MINUS))
+		speed -= 0.05f;
 
 	if(wnd.mouse.LeftIsPressed()){
 		Location loc(wnd.mouse.GetPosX() / Board::cellSize, wnd.mouse.GetPosY() / Board::cellSize);
