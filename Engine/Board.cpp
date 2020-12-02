@@ -52,7 +52,7 @@ void Board::InitSpawn(){
 	std::mt19937 rng = std::mt19937(std::random_device()());
 	std::uniform_int_distribution<int> xuid(0, Graphics::ScreenWidth / cellSize - 1);
 	std::uniform_int_distribution<int> yuid(0, Graphics::ScreenHeight / cellSize - 1);
-	for(int i = 0; i < 500; i++){
+	for(int i = 0; i < 1500; i++){
 		bool isOccupied = false;
 		int x;
 		int y;
