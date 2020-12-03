@@ -96,6 +96,17 @@ void Board::SpawnCell(Location &loc){
 		SpawnCell(board[loc.y][loc.x]);
 }
 
+void Board::ClearBoard(){
+	for(int y = 0; y < Graphics::ScreenHeight / cellSize; y++)
+		for(int x = 0; x < Graphics::ScreenWidth / cellSize; x++)
+			KillCell(board[y][x]);
+}
+
+void Board::Reset(){
+	ClearBoard();
+	InitSpawn();
+}
+
 void Board::Update(){
 	for(int y = 0; y < Graphics::ScreenHeight / cellSize; y++)
 		for(int x = 0; x < Graphics::ScreenWidth / cellSize; x++){

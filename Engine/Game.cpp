@@ -57,6 +57,12 @@ void Game::UpdateModel()
 	if(wnd.kbd.KeyIsPressed(VK_OEM_MINUS))
 		speed -= 0.05f;
 
+	if(wnd.kbd.KeyIsPressed('C'))
+		test.ClearBoard();
+
+	if(wnd.kbd.KeyIsPressed('R'))
+		test.Reset();
+
 	if(wnd.mouse.LeftIsPressed()){
 		Location loc(wnd.mouse.GetPosX() / Board::cellSize, wnd.mouse.GetPosY() / Board::cellSize);
 		test.SpawnCell(loc);

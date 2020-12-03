@@ -22,14 +22,17 @@ private:
 		bool alive = false;
 		bool toToggle = false;
 	};
+private:
+	void InitSpawn();
 public:
 	Board();
 	void Draw(Graphics &gfx);
-	void InitSpawn();
 	void KillCell(Cell &c);
 	void KillCell(Location &loc);
 	void SpawnCell(Cell &c);
 	void SpawnCell(Location &loc);
+	void ClearBoard();
+	void Reset();
 	void Update();
 	static constexpr int cellSize = 10;
 private:
