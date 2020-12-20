@@ -43,6 +43,9 @@ void Board::Cell::Tick(){
 
 Board::Board()
 {
+	board.resize(Graphics::ScreenHeight / cellSize);
+	for(auto &n : board)
+		n.resize(Graphics::ScreenWidth / cellSize);
 	InitSpawn();
 	for(int y = 0; y < Graphics::ScreenHeight / cellSize; y++)
 		for(int x = 0; x < Graphics::ScreenWidth / cellSize; x++){
@@ -62,7 +65,7 @@ void Board::InitSpawn(){
 	std::mt19937 rng = std::mt19937(std::random_device()());
 	std::uniform_int_distribution<int> xuid(0, Graphics::ScreenWidth / cellSize - 1);
 	std::uniform_int_distribution<int> yuid(0, Graphics::ScreenHeight / cellSize - 1);
-	for(int i = 0; i < 1500; i++){
+	for(int i = 0; i < 30000; i++){
 		bool isOccupied = false;
 		int x;
 		int y;
@@ -129,4 +132,5 @@ void Board::Update(){
 	for(int y = 0; y < Graphics::ScreenHeight / cellSize; y++)
 		for(int x = 0; x < Graphics::ScreenWidth / cellSize; x++)
 			board[y][x].Tick();
+
 }

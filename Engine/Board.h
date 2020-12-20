@@ -2,6 +2,7 @@
 
 #include "Location.h"
 #include "Graphics.h"
+#include <vector>
 
 class Board{
 private:
@@ -34,8 +35,9 @@ public:
 	void ClearBoard();
 	void Reset();
 	void Update();
-	static constexpr int cellSize = 10;
+	static constexpr int cellSize = 2;
 private:
-	Cell board[Graphics::ScreenHeight / cellSize][Graphics::ScreenWidth / cellSize];
+//	Cell board[Graphics::ScreenHeight / cellSize][Graphics::ScreenWidth / cellSize];
+	std::vector<std::vector<Cell>> board;
 };
 
